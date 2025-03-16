@@ -1,0 +1,15 @@
+/build
+
+# Ignore Android Studio/IDE settings
+.idea/
+*.iml
+
+# Ignore build and generated files
+/build/
+/.gradle/
+/captures/
+.DS_Store
+local.properties
+
+# Ignore log files
+*.log
