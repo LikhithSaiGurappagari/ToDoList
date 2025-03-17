@@ -26,9 +26,22 @@ class list_of_tasks : AppCompatActivity() {
             insets
         }
 
-        adapter = TaskAdapter(mutableListOf()) { task ->
-            taskViewModel.delete(task)
-        }
+        adapter = TaskAdapter(
+            mutableListOf(),
+            onEditClick = { task ->
+                val intent = Intent(this, EditTaskActivity::class.java)
+                intent.putExtra("task_id", task.id)
+                intent.putExtra("task_title", task.title)
+                intent.putExtra("task_description", task.description)
+                startActivity(intent)
+            },
+            onTaskDeleted = { task ->
+                taskViewModel.delete(task)
+            },
+            onTaskUpdated = { task ->
+                taskViewModel.update(task)  // Update task instead of deleting
+            }
+        )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter

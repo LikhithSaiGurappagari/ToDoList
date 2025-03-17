@@ -10,7 +10,9 @@ import com.example.todolist.databinding.TaskItemViewBinding
 
 class TaskAdapter(
     private var tasks: List<Task>,
-    private val onTaskDeleted: (Task) -> Unit
+    private val onTaskDeleted: (Task) -> Unit,
+    private val onEditClick: (Task) -> Unit,
+    private val onTaskUpdated: (Task) -> Unit
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     inner class TaskViewHolder(private val binding: TaskItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -26,12 +28,14 @@ class TaskAdapter(
                 binding.tvTaskTitle.paintFlags = binding.tvTaskTitle.paintFlags and android.graphics.Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
 
+            binding.btnEdit.setOnClickListener {
+                onEditClick(task)  // Send task to EditTaskActivity
+            }
+
             // Add listeners for delete and checkbox
             binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    onTaskDeleted(task) // Call delete function
-                }
-
+                task.isCompleted = isChecked
+                onTaskUpdated(task)
             }
         }
     }
