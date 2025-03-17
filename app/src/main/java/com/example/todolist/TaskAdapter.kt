@@ -34,8 +34,9 @@ class TaskAdapter(
 
             // Add listeners for delete and checkbox
             binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
-                task.isCompleted = isChecked
-                onTaskUpdated(task)
+                if (isChecked) {
+                    onTaskDeleted(task) // Call delete function
+                }
             }
         }
     }
